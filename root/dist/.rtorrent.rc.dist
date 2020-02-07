@@ -51,13 +51,13 @@ schedule2 = dht_node_3, 5, 0, "dht.add_node=router.bitcomet.com:6881"
 schedule2 = dht_node_4, 5, 0, "dht.add_node=dht.aelitis.com:6881"
 
 # Peer settings
-throttle.max_uploads.set = 100
-throttle.max_uploads.global.set = 250
+throttle.max_uploads.set = 60
+throttle.max_uploads.global.set = 100
 
 throttle.min_peers.normal.set = 20
 throttle.max_peers.normal.set = 60
-throttle.min_peers.seed.set = 30
-throttle.max_peers.seed.set = 80
+throttle.min_peers.seed.set = 10
+throttle.max_peers.seed.set = 40
 trackers.numwant.set = 80
 
 protocol.encryption.set = allow_incoming,try_outgoing,enable_retry
@@ -71,7 +71,7 @@ network.max_open_sockets.set = 300
 
 # Memory resource usage (increase if you have a large number of items loaded,
 # and/or the available resources to spend)
-pieces.memory.max.set = 1800M
+pieces.memory.max.set = 1024M
 network.xmlrpc.size_limit.set = 4M
 
 # Basic operational settings (no need to change these)
@@ -87,7 +87,7 @@ encoding.add = utf8
 system.umask.set = 0027
 #system.cwd.set = (directory.default)
 network.http.dns_cache_timeout.set = 25
-schedule2 = monitor_diskspace, 15, 60, ((close_low_diskspace, 1000M))
+schedule2 = monitor_diskspace, 15, 60, ((close_low_diskspace, 5000M))
 #pieces.hash.on_completion.set = no
 #view.sort_current = seeding, greater=d.ratio=
 #keys.layout.set = qwerty
@@ -109,8 +109,7 @@ schedule2 = watch_load, 11, 10, ((load.verbose, (cat, (cfg.watch), "load/*.torre
 ## Add & download straight away
 schedule2 = watch_start, 10, 10, ((load.start_verbose, (cat, (cfg.watch), "start/*.torrent")))
 
-## Run the rTorrent process as a daemon in the background
-## (and control via XMLRPC sockets)
+## Run the rTorrent process as a daemon in the background (and control via XMLRPC sockets)
 system.daemon.set = true
 network.scgi.open_local = (cfg.socketfile)
 execute.nothrow=chmod,"g+w",(cfg.socketfile)
